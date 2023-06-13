@@ -1,5 +1,9 @@
 package JavaTester;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -43,7 +47,7 @@ public class Topic_02_Data_Type {
 		        // Array
 		        String[] studentName = {"Nguyễn Văn An", "Lê Văn Hùng", "Nguyễn Thị Loan"};
 		        // Collection: List/Set/Queue
-		        List<WebElement> checkboxes = driver.findElement(By.cssSelector(""));
+		        List<WebElement> checkboxes = (List<WebElement>) driver.findElement(By.cssSelector(""));
 		        // Map
 		        Map<String, Integer> student = new HashMap<String, Integer>();
 		        

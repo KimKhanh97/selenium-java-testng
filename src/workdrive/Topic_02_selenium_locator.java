@@ -36,63 +36,20 @@ public class Topic_02_selenium_locator {
 
 	@Test
 	public void TC_01_ID() {
-		// Thao tác lên element thì đầu tiên phải tìm được element đó: findElement
-		// Find theo cái gì: id/class/name/css/xpath/...
-		// Find tìm thấy element rồi thì action lên element đó: click/sendkey/...
-		driver.findElement(By.id("FirstName")).sendKeys("Automation");
+		driver.get("https://automationfc.github.io/basic-form/");
+		//Java: System.out.println -> sysout ctrl+space
+		//C#: Console.WriteLine
+		//JS: Console.log
+		
+		System.out.println("Text của thẻ H5: " + driver.findElement(By.xpath("//h5[id='nested']")).getText());
+		
 	}
 
 	@Test
 	public void TC_02_Class() {
-		//Mở màn hình search
-		driver.get("https://demo.nopcommerce.com/search");
-		// Nhập text vào search textbox
-		driver.findElement(By.className("search-text")).sendKeys("Macbook");
-	}
-
-	@Test
-	public void TC_03_Name() {
-		//Click vào advances Search checkbox
-		driver.findElement(By.name("advs")).click();
-	}
-	@Test
-	public void TC_04_TagName() {
-		// tìm bao nhiêu thẻ input trên màn hình hiện tại
-		System.out.println(driver.findElements(By.tagName("input")).size());
-	}
-	@Test
-	public void TC_05_LinkText() {
-		// CLick vào đường link Addresses(truyền vào text tuyệt đối)
-		driver.findElement(By.linkText("Addresses")).click();
-	}
-	@Test
-	public void TC_06_PartialLinkText() {
-		// CLick vào đường link Apply for vendor account (truyền vào text tương đối)
-		driver.findElement(By.partialLinkText("vendor account")).click();
-	}
-	@Test
-	public void TC_07_CSS() {
-		// Mở trang Register ra
-		driver.get("https://demo.nopcommerce.com/register");
-		//1
-		driver.findElement(By.cssSelector("input#FirstName")).sendKeys("Selenium");
-		//2
-		driver.findElement(By.cssSelector("input[id='LastName']")).sendKeys("Locator");
-		//3
-		driver.findElement(By.cssSelector("input[name='Email']")).sendKeys("automation@gmail.com");
 		
 	}
-	@Test
-	public void TC_08_Xpath() {
-		// Mở trang Register ra
-		driver.get("https://demo.nopcommerce.com/register");
-		//1
-		driver.findElement(By.xpath("//input[@id='FirstName']")).sendKeys("Selenium");
-		//2
-		driver.findElement(By.xpath("//input[@id='LastName']")).sendKeys("Locator");
-		//3
-		driver.findElement(By.xpath("//label[text()='Email:']/following-sibling::input")).sendKeys("automation@gmail.com");
-	}
+
 	
 
 	@AfterClass

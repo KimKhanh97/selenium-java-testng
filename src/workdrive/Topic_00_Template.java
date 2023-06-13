@@ -26,15 +26,27 @@ public class Topic_00_Template {
 	}
 
 	@Test
-	public void TC_01_() {
+	public void TC_01_Empty_Data() {
 	}
 
 	@Test
-	public void TC_02_() {
+	public void TC_02_Invalid_Email() {
 	}
 
 	@Test
-	public void TC_03_() {
+	public void TC_03_Incorrect_Email() {
+	}
+	
+	@Test
+	public void TC_04_Invalid_Password() {
+	}
+	
+	@Test
+	public void TC_05_Incorrect_Password() {
+	}
+	
+	@Test
+	public void TC_06_Invalid_Phone() {
 	}
 
 	@AfterClass
