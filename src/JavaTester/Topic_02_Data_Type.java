@@ -38,6 +38,8 @@ public class Topic_02_Data_Type {
 		// II - Kiểu dữ liệu tham chiếu ( reference)
 		        // Class
 		        FirefoxDriver driver = new FirefoxDriver();
+		        
+		        WebDriver driver_= null;
 		        // Interface
 		        WebElement fisrtNameTextbox;
 		        // String
