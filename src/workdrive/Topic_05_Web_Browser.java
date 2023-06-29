@@ -1,9 +1,10 @@
 package workdrive;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -42,9 +43,25 @@ public class Topic_05_Web_Browser {
 		// Không quan tâm bao nhiều tab/window -> đóng browser
 		driver.quit();
 		
-		//Có thể lưu vào 1 biến để sử dụng cho các step sau
-		driver.findElement(By.xpath(""));
-		//Có thể sử dụng luôn (không cần tạo biến)
+		
+		//FIND ELEMENT
+		   //Có thể lưu vào 1 biến để sử dụng cho các step sau
+		     // clean code
+		WebElement emailTextbox = driver.findElement(By.xpath("//input[@id='email']"));
+		emailTextbox.clear();
+		emailTextbox.sendKeys("");
+		    // Bad code
+		driver.findElement(By.xpath("//input[@id='email']")).clear();
+		driver.findElement(By.xpath("//input[@id='email']")).sendKeys("");
+		
+		 //Có thể sử dụng luôn (không cần tạo biến) - dùng 1 lần ko cần tạo biến
+		driver.findElement(By.xpath("//buton[@id='login']")).click();	
+		
+		//FIND ELEMENT số nhiều
+		List<WebElement> Checkboxes = driver.findElements(By.xpath(""));
+		
+		
+		
 		
 	}
 
