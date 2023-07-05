@@ -23,32 +23,28 @@ public class Topic_00_Template {
 
 		driver = new FirefoxDriver();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		driver.manage().window().maximize();
 	}
 
 	@Test
-	public void TC_01_Empty_Data() {
+	public void TC_01_() {
 	}
 
 	@Test
-	public void TC_02_Invalid_Email() {
+	public void TC_02_() {
 	}
 
-	@Test
-	public void TC_03_Incorrect_Email() {
-	}
 	
-	@Test
-	public void TC_04_Invalid_Password() {
-	}
-	
-	@Test
-	public void TC_05_Incorrect_Password() {
-	}
-	
-	@Test
-	public void TC_06_Invalid_Phone() {
-	}
-
+	//1000ms = 1s
+		public void sleepInSecond(long timeInsecond) {
+			try {
+				Thread.sleep(timeInsecond * 1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
 	@AfterClass
 	public void afterClass() {
 		driver.quit();
