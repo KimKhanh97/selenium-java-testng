@@ -34,8 +34,7 @@ public class Topic_05_Web_Browser_PII_Exercise {
 		//PageLogin
 		driver.findElement(By.xpath("//div[@class='footer']//a[@title='My Account']")).click();
 		sleepInSecond(3);
-		Assert.assertEquals(driver.getCurrentUrl(), "http://live.techpanda.org/index.php/customer/account/login/");
-		
+		Assert.assertEquals(driver.getCurrentUrl(), "http://live.techpanda.org/index.php/customer/account/login/");		
 		//Click vào Create An Account
 		driver.findElement(By.xpath("//a[@title='Create an Account']")).click();
 		sleepInSecond(3);
@@ -48,8 +47,7 @@ public class Topic_05_Web_Browser_PII_Exercise {
 		//PageLogin
 		driver.findElement(By.xpath("//div[@class='footer']//a[@title='My Account']")).click();
 		sleepInSecond(3);
-		Assert.assertEquals(driver.getTitle(), "Customer Login");
-		
+		Assert.assertEquals(driver.getTitle(), "Customer Login");		
 		//Click vào Create An Account
 		driver.findElement(By.xpath("//a[@title='Create an Account']")).click();
 		sleepInSecond(3);
@@ -75,14 +73,26 @@ public class Topic_05_Web_Browser_PII_Exercise {
 		driver.navigate().forward();
 		sleepInSecond(2);
 		Assert.assertEquals(driver.getTitle(), "Create New Customer Account");
-		
-		
 	}
 	
 	@Test
 	public void TC_04_Page_Source() {
-	}
+		driver.get("http://live.techpanda.org/");
+		//Click vào MY ACCOUNT
+		driver.findElement(By.xpath("//div[@class='footer']//a[@title='My Account']")).click();
+		sleepInSecond(3);
+		
+		//Verify page HTML có chứa chuỗi mong muốn hay không
+		Assert.assertTrue(driver.getPageSource().contains("Login or Create an Account"));
+		  //driver.getPageSource().contains("Login or Create an Account") => true/false
+		 //Assert.assertTrue(True)
 	
+	   //Click vào Create An Account
+		driver.findElement(By.xpath("//a[@title='Create an Account']")).click();
+		sleepInSecond(3);
+	  // Verify Regester page chứa text: Create an Account
+		Assert.assertTrue(driver.getPageSource().contains("Create an Account"));
+	}
 	
 	//1000ms = 1s
 	public void sleepInSecond(long timeInsecond) {
