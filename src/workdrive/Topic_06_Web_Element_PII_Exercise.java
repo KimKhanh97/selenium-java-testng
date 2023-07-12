@@ -156,7 +156,7 @@ public class Topic_06_Web_Element_PII_Exercise {
 		}else 
 			System.out.println("Slider 02 is disabled");
 	}
-	@Test
+	//@Test
 	public void TC_03_Selected() {
 		driver.get("https://automationfc.github.io/basic-form/index.html");
 		// Verify checkbox/radiobutton are deselected
@@ -176,10 +176,84 @@ public class Topic_06_Web_Element_PII_Exercise {
 		  // Age Under 18 Radio button
 		Assert.assertTrue(driver.findElement(ageUnder18Radio).isSelected());
 		
-	
+	}
+	@Test
+	public void TC_04_MailChimp() {
+		driver.get("https://login.mailchimp.com/signup/");
+		
+		driver.findElement(By.id("email")).sendKeys("Trankimkhanh0909@gmail.com");
+		
+		By passwordTextbox = By.id("new_password");
+		By signupButton = By.id("create-account-enabled");
+		
+		driver.findElement(passwordTextbox).sendKeys("abc");
+		driver.findElement(signupButton).click();
+		sleepInSecond(2);
+		// Verify lowercase
+		
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='lowercase-char completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='uppercase-char not-completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='number-char not-completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='special-char not-completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='8-char not-completed']")).isDisplayed());
+		
+		driver.findElement(passwordTextbox).clear();
+		driver.findElement(passwordTextbox).sendKeys("ABC");
+		// Verify uppercase
+		
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='lowercase-char not-completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='uppercase-char completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='number-char not-completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='special-char not-completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='8-char not-completed']")).isDisplayed());
+		
+		driver.findElement(passwordTextbox).clear();
+		driver.findElement(passwordTextbox).sendKeys("123");
+		sleepInSecond(2);
+		// Verify number-char
+		
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='lowercase-char not-completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='uppercase-char not-completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='number-char completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='special-char not-completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='8-char not-completed']")).isDisplayed());
+		
+		driver.findElement(passwordTextbox).clear();
+		driver.findElement(passwordTextbox).sendKeys("@@@");
+		sleepInSecond(2);
+		// Verify special-char
+		
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='lowercase-char not-completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='uppercase-char not-completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='number-char not-completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='special-char completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='8-char not-completed']")).isDisplayed());
+		
+		driver.findElement(passwordTextbox).clear();
+		driver.findElement(passwordTextbox).sendKeys("Kk@1");
+		sleepInSecond(2);
+		// Verify 8-char
+		
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='lowercase-char not-completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='uppercase-char not-completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='number-char not-completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='special-char not-completed']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='8-char completed']")).isDisplayed());
+		
+		driver.findElement(passwordTextbox).clear();
+		driver.findElement(passwordTextbox).sendKeys("Kimkhanh@123");
+		sleepInSecond(2);
+		// Verify value valid
+		
+		Assert.assertFalse(driver.findElement(By.xpath("//li[@class='lowercase-char completed']")).isDisplayed());
+		Assert.assertFalse(driver.findElement(By.xpath("//li[@class='uppercase-char completed']")).isDisplayed());
+		Assert.assertFalse(driver.findElement(By.xpath("//li[@class='number-char completed']")).isDisplayed());
+		Assert.assertFalse(driver.findElement(By.xpath("//li[@class='special-char completed']")).isDisplayed());
+		Assert.assertFalse(driver.findElement(By.xpath("//li[@class='8-char completed']")).isDisplayed());
+		
+		
 		
 	}
-
 	
 	//1000ms = 1s
 		public void sleepInSecond(long timeInsecond) {
