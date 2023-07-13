@@ -1,5 +1,6 @@
 package workdrive;
 
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -12,8 +13,11 @@ import org.testng.annotations.Test;
 
 public class Topic_06_Web_Element_PIII_Exercise2 {
 	WebDriver driver;
+	Random rand;
 	String projectPath = System.getProperty("user.dir");
 	String osName = System.getProperty("os.name");
+	String emailAddress;
+	
 	
 	By emailTextbox = By.id("mail");
 	By ageUnder18Radio = By.id("under_18");
@@ -38,10 +42,11 @@ public class Topic_06_Web_Element_PIII_Exercise2 {
 		} else {
 			System.setProperty("webdriver.gecko.driver", projectPath + "/browserDrivers/geckodriver");
 		}
-
+        rand = new Random();
 		driver = new FirefoxDriver();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
+		emailAddress = "Automation" + rand.nextInt(9999) + "@gmail.com";
 	}
 
 	//@Test
@@ -68,7 +73,7 @@ public class Topic_06_Web_Element_PIII_Exercise2 {
 		Assert.assertEquals(driver.findElement(By.id("advice-validate-email-email")).getText(), "Please enter a valid email address. For example johndoe@domain.com.");
 		
 	}
-	@Test
+	//@Test
 	public void TC_03_Login() {
 		driver.get("http://live.techpanda.org/");
 		driver.findElement(By.xpath("//div[@class='footer']//a[@title='My Account']")).click();
@@ -85,11 +90,35 @@ public class Topic_06_Web_Element_PIII_Exercise2 {
 		driver.get("http://live.techpanda.org/");
 		driver.findElement(By.xpath("//div[@class='footer']//a[@title='My Account']")).click();
 		sleepInSecond(2);
-		driver.findElement(By.id("email")).sendKeys("automation@gmail.com");
+		driver.findElement(By.id("email")).sendKeys(emailAddress);
 		driver.findElement(By.id("pass")).sendKeys("123123123");
 		driver.findElement(By.id("send2")).click();
 		sleepInSecond(2);
-		Assert.assertEquals(driver.findElement(By.id("advice-validate-password-pass")).getText(), "Please enter 6 or more characters without leading or trailing spaces.");
+		Assert.assertEquals(driver.findElement(By.xpath("//li[@class='error-msg']//span")).getText(), "Invalid login or password.");
+	}
+	
+	@Test
+	public void TC_05_Login() {
+		driver.get("http://live.techpanda.org/");
+		driver.findElement(By.xpath("//div[@class='footer']//a[@title='My Account']")).click();
+		sleepInSecond(2);
+		driver.findElement(By.id("email")).sendKeys(emailAddress);
+		driver.findElement(By.id("pass")).sendKeys("123123123");
+		driver.findElement(By.id("send2")).click();
+		sleepInSecond(2);
+		Assert.assertEquals(driver.findElement(By.xpath("//li[@class='error-msg']//span")).getText(), "Invalid login or password.");
+	}
+	
+	@Test
+	public void TC_06_Login() {
+		driver.get("http://live.techpanda.org/");
+		driver.findElement(By.xpath("//div[@class='footer']//a[@title='My Account']")).click();
+		sleepInSecond(2);
+		driver.findElement(By.id("email")).sendKeys(emailAddress);
+		driver.findElement(By.id("pass")).sendKeys("123123123");
+		driver.findElement(By.id("send2")).click();
+		sleepInSecond(2);
+		Assert.assertEquals(driver.findElement(By.xpath("//li[@class='error-msg']//span")).getText(), "Invalid login or password.");
 	}
 		
 	
