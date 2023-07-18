@@ -8,5 +8,7 @@ public class Topic_05_Random {
 		// Data Type: class/ interface/ collection/ String/ Float/...
 		Random rand = new Random();
 		rand.
+		
+		
 	}
 }
