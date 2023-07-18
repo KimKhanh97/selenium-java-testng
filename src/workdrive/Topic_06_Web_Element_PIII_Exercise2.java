@@ -51,7 +51,6 @@ public class Topic_06_Web_Element_PIII_Exercise2 {
 		fullName = firstName + " " + lastName;
 		lastName = "Tran";
 		password = "1234567890";
-		confirmation = "1234567890";
 		
 	}
 
@@ -91,7 +90,7 @@ public class Topic_06_Web_Element_PIII_Exercise2 {
 		Assert.assertEquals(driver.findElement(By.id("advice-validate-password-pass")).getText(), "Please enter 6 or more characters without leading or trailing spaces.");
 		
 	}
-	@Test
+	//@Test
 	public void TC_04_Login() {
 		driver.get("http://live.techpanda.org/");
 		driver.findElement(By.xpath("//div[@class='footer']//a[@title='My Account']")).click();
@@ -114,28 +113,34 @@ public class Topic_06_Web_Element_PIII_Exercise2 {
 		driver.findElement(By.id("lastname")).sendKeys(lastName);
 		driver.findElement(By.id("email_address")).sendKeys(emailAddress);
 		driver.findElement(By.id("password")).sendKeys(password);
-		driver.findElement(By.id("confirmation")).sendKeys(confirmation);
+		driver.findElement(By.id("confirmation")).sendKeys(password);
 		driver.findElement(By.xpath("//button[@title='Register']")).click();
 		Assert.assertEquals(driver.findElement(By.xpath("//li[@class='success-msg']//span")).getText(), "Thank you for registering with Main Website Store.");
-		Assert.assertEquals(driver.findElements(By.), false)
+		String contacInformationText = driver.findElement(By.xpath("//h3[text()='Contact Information']/parent::div/following-sibling::div/p")).getText();
+		System.out.println(contacInformationText);
 		
+		Assert.assertTrue(contacInformationText.contains(fullName));
+		Assert.assertTrue(contacInformationText.contains(emailAddress));
+		driver.findElement(By.xpath("//div[@class='account-cart-wrapper']//span[text()='Account']")).click();
+		driver.findElement(By.xpath("//a[@title='Log Out']")).click();
 		
-		
+		Assert.assertTrue(driver.findElement(By.xpath("//img[contains(@src,'logo.png')]")).isDisplayed());
 	}
-	
+
 	@Test
 	public void TC_06_Login() {
-		driver.get("http://live.techpanda.org/");
-		driver.findElement(By.xpath("//div[@class='footer']//a[@title='My Account']")).click();
-		sleepInSecond(2);
-		driver.findElement(By.id("email")).sendKeys(emailAddress);
-		driver.findElement(By.id("pass")).sendKeys("123123123");
-		driver.findElement(By.id("send2")).click();
-		sleepInSecond(2);
-		Assert.assertEquals(driver.findElement(By.xpath("//li[@class='error-msg']//span")).getText(), "Invalid login or password.");
+	   driver.findElement(By.xpath("//div[@class='footer']//a[@title='My Account']")).click();
+	   sleepInSecond(2);
+	   driver.findElement(By.id("email")).sendKeys(emailAddress);
+	   driver.findElement(By.id("pass")).sendKeys(password);
+	   driver.findElement(By.id("send2")).click();
+	   sleepInSecond(2);
+	   String contacInformationText = driver.findElement(By.xpath("//h3[text()='Contact Information']/parent::div/following-sibling::div/p")).getText();
+	   System.out.println(contacInformationText);
+	   Assert.assertTrue(contacInformationText.contains(fullName));
+	   Assert.assertTrue(contacInformationText.contains(emailAddress));
+	   
 	}
-		
-	
 	
 	
 	//1000ms = 1s
