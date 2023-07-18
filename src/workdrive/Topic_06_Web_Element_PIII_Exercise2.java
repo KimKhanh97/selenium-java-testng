@@ -16,7 +16,7 @@ public class Topic_06_Web_Element_PIII_Exercise2 {
 	Random rand;
 	String projectPath = System.getProperty("user.dir");
 	String osName = System.getProperty("os.name");
-	String emailAddress;
+	String emailAddress, firstName, lastName, password, confirmation, fullName;   
 	
 	
 	By emailTextbox = By.id("mail");
@@ -47,6 +47,12 @@ public class Topic_06_Web_Element_PIII_Exercise2 {
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
 		emailAddress = "Automation" + rand.nextInt(9999) + "@gmail.com";
+		firstName = "Khanh";
+		fullName = firstName + " " + lastName;
+		lastName = "Tran";
+		password = "1234567890";
+		confirmation = "1234567890";
+		
 	}
 
 	//@Test
@@ -102,11 +108,19 @@ public class Topic_06_Web_Element_PIII_Exercise2 {
 		driver.get("http://live.techpanda.org/");
 		driver.findElement(By.xpath("//div[@class='footer']//a[@title='My Account']")).click();
 		sleepInSecond(2);
-		driver.findElement(By.id("email")).sendKeys(emailAddress);
-		driver.findElement(By.id("pass")).sendKeys("123123123");
-		driver.findElement(By.id("send2")).click();
+		driver.findElement(By.xpath("//a[@title='Create an Account']")).click();
 		sleepInSecond(2);
-		Assert.assertEquals(driver.findElement(By.xpath("//li[@class='error-msg']//span")).getText(), "Invalid login or password.");
+		driver.findElement(By.id("firstname")).sendKeys(firstName);
+		driver.findElement(By.id("lastname")).sendKeys(lastName);
+		driver.findElement(By.id("email_address")).sendKeys(emailAddress);
+		driver.findElement(By.id("password")).sendKeys(password);
+		driver.findElement(By.id("confirmation")).sendKeys(confirmation);
+		driver.findElement(By.xpath("//button[@title='Register']")).click();
+		Assert.assertEquals(driver.findElement(By.xpath("//li[@class='success-msg']//span")).getText(), "Thank you for registering with Main Website Store.");
+		Assert.assertEquals(driver.findElements(By.), false)
+		
+		
+		
 	}
 	
 	@Test
