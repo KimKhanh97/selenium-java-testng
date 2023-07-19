@@ -7,7 +7,7 @@ public class Topic_05_Random {
 		// utilities = tiện ích
 		// Data Type: class/ interface/ collection/ String/ Float/...
 		Random rand = new Random();
-		rand.
+		
 		
 		
 	}

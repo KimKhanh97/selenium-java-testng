@@ -16,7 +16,7 @@ public class Topic_06_Web_Element_PIII_Exercise2 {
 	Random rand;
 	String projectPath = System.getProperty("user.dir");
 	String osName = System.getProperty("os.name");
-	String emailAddress, firstName, lastName, password, confirmation, fullName;   
+	String emailAddress, firstName, lastName, password, fullName;   
 	
 	
 	By emailTextbox = By.id("mail");
@@ -48,13 +48,13 @@ public class Topic_06_Web_Element_PIII_Exercise2 {
 		driver.manage().window().maximize();
 		emailAddress = "Automation" + rand.nextInt(9999) + "@gmail.com";
 		firstName = "Khanh";
-		fullName = firstName + " " + lastName;
 		lastName = "Tran";
+		fullName = firstName + " " + lastName;
 		password = "1234567890";
 		
 	}
 
-	//@Test
+	@Test
 	public void TC_01_Login() {
 		driver.get("http://live.techpanda.org/");
 		driver.findElement(By.xpath("//div[@class='footer']//a[@title='My Account']")).click();
@@ -66,7 +66,7 @@ public class Topic_06_Web_Element_PIII_Exercise2 {
 	
 	}
 	
-	//@Test
+	@Test
 	public void TC_02_Login() {
 		driver.get("http://live.techpanda.org/");
 		driver.findElement(By.xpath("//div[@class='footer']//a[@title='My Account']")).click();
@@ -78,7 +78,7 @@ public class Topic_06_Web_Element_PIII_Exercise2 {
 		Assert.assertEquals(driver.findElement(By.id("advice-validate-email-email")).getText(), "Please enter a valid email address. For example johndoe@domain.com.");
 		
 	}
-	//@Test
+	@Test
 	public void TC_03_Login() {
 		driver.get("http://live.techpanda.org/");
 		driver.findElement(By.xpath("//div[@class='footer']//a[@title='My Account']")).click();
@@ -90,7 +90,7 @@ public class Topic_06_Web_Element_PIII_Exercise2 {
 		Assert.assertEquals(driver.findElement(By.id("advice-validate-password-pass")).getText(), "Please enter 6 or more characters without leading or trailing spaces.");
 		
 	}
-	//@Test
+	@Test
 	public void TC_04_Login() {
 		driver.get("http://live.techpanda.org/");
 		driver.findElement(By.xpath("//div[@class='footer']//a[@title='My Account']")).click();
@@ -116,11 +116,11 @@ public class Topic_06_Web_Element_PIII_Exercise2 {
 		driver.findElement(By.id("confirmation")).sendKeys(password);
 		driver.findElement(By.xpath("//button[@title='Register']")).click();
 		Assert.assertEquals(driver.findElement(By.xpath("//li[@class='success-msg']//span")).getText(), "Thank you for registering with Main Website Store.");
-		String contacInformationText = driver.findElement(By.xpath("//h3[text()='Contact Information']/parent::div/following-sibling::div/p")).getText();
-		System.out.println(contacInformationText);
+		String contactInformationText = driver.findElement(By.xpath("//h3[text()='Contact Information']/parent::div/following-sibling::div/p")).getText();
+		System.out.println(contactInformationText);
 		
-		Assert.assertTrue(contacInformationText.contains(fullName));
-		Assert.assertTrue(contacInformationText.contains(emailAddress));
+		Assert.assertTrue(contactInformationText.contains(fullName));
+		Assert.assertTrue(contactInformationText.contains(emailAddress));
 		driver.findElement(By.xpath("//div[@class='account-cart-wrapper']//span[text()='Account']")).click();
 		driver.findElement(By.xpath("//a[@title='Log Out']")).click();
 		
