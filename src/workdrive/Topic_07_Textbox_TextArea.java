@@ -45,7 +45,13 @@ public class Topic_07_Textbox_TextArea {
 		sleepInSecond(3);
 		driver.findElement(By.name("firstName")).sendKeys("Khanh");
 		driver.findElement(By.name("lastName")).sendKeys("Kim");
-		driver.findElement(By.name("lastName")).sendKeys("employeeID");
+		driver.findElement(By.xpath("//label[text()='Employee Id']/parent::div/following-sibling::div/input")).sendKeys(employeeID);
+		driver.findElement(By.xpath("//p[text()='Create Login Details']/parent::div//input")).click();
+		driver.findElement(By.xpath("//label[text()='Username']/parent::div/following-sibling::div/input")).sendKeys("KimKhanh" + employeeID);
+		driver.findElement(By.xpath("//label[text()='Password']/parent::div/following-sibling::div/input")).sendKeys("Kimkhanh@090997");
+		driver.findElement(By.xpath("//label[text()='Confirm Password']/parent::div/following-sibling::div/input")).sendKeys("Kimkhanh@090997";
+		)
+		
 		
 	}
 
