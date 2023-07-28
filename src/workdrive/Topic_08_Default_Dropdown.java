@@ -16,7 +16,8 @@ public class Topic_08_Default_Dropdown {
 	WebDriver driver;
 	String projectPath = System.getProperty("user.dir");
 	String osName = System.getProperty("os.name");
-	String firstName, lastName, emailAddress, companyName, password, day, month, year;
+	String firstName, lastName, emailAddress, companyName, password, day, month, year, countryName, provinceName,
+			cityName, postalCode, phoneNumber, addressName;
 
 	@BeforeClass
 	public void beforeClass() {
@@ -37,6 +38,12 @@ public class Topic_08_Default_Dropdown {
 		day = "18";
 		month = "December";
 		year = "1994";
+		countryName = "United States";
+		provinceName = "California";
+		cityName = "Los Angeles";
+		postalCode = "90003";
+		phoneNumber = "+1 646 980 4741";
+		addressName = "17 Da's Son";
 	}
 
 	@Test
@@ -63,25 +70,46 @@ public class Topic_08_Default_Dropdown {
 		driver.findElement(By.id("Company")).sendKeys(companyName);
 		driver.findElement(By.id("Password")).sendKeys(password);
 		driver.findElement(By.id("ConfirmPassword")).sendKeys(password);
-		
 		driver.findElement(By.id("register-button")).click();
-		
-		Assert.assertEquals(driver.findElement(By.xpath("//div[@class='result']")).getText(), "Your registration completed");
-		driver.findElement(By.cssSelector("a.ico-account")).click();
-		
-		//Verify
+		Assert.assertEquals(driver.findElement(By.xpath("//div[@class='result']")).getText(),
+				"Your registration completed");
+		driver.findElement(By.xpath("//a[@class='ico-login']")).click();
+		sleepInSecond(3);
+		driver.findElement(By.id("Email")).sendKeys(emailAddress);
+		driver.findElement(By.id("Password")).sendKeys(password);
+		driver.findElement(By.xpath("//button[@class='button-1 login-button']")).click();
+		sleepInSecond(3);
+		driver.findElement(By.xpath("//a[@class='ico-account']")).click();
+		sleepInSecond(3);
+		// Verify
 		Assert.assertEquals(driver.findElement(By.id("FirstName")).getAttribute("value"), firstName);
 		Assert.assertEquals(driver.findElement(By.id("LastName")).getAttribute("value"), lastName);
-		
-		
-		Assert.assertEquals(new Select(driver.findElement(By.name("DateOfBirthDay"))).getFirstSelectedOption().getText(), day);
-		Assert.assertEquals(new Select(driver.findElement(By.name("DateOfBirthMonth"))).getFirstSelectedOption().getText(), month);
-		Assert.assertEquals(new Select(driver.findElement(By.name("DateOfBirthYear"))).getFirstSelectedOption().getText(), year);
+
+		Assert.assertEquals(
+				new Select(driver.findElement(By.name("DateOfBirthDay"))).getFirstSelectedOption().getText(), day);
+		Assert.assertEquals(
+				new Select(driver.findElement(By.name("DateOfBirthMonth"))).getFirstSelectedOption().getText(), month);
+		Assert.assertEquals(
+				new Select(driver.findElement(By.name("DateOfBirthYear"))).getFirstSelectedOption().getText(), year);
 		Assert.assertEquals(driver.findElement(By.id("Company")).getAttribute("value"), companyName);
 	}
 
-	@Test
+	// @Test
 	public void TC_02_Add_Address() {
+		driver.findElement(By.xpath("//li[@class='customer-addresses active']/a")).click();
+		driver.findElement(By.xpath("//button[@class='button-1 add-address-button']")).click();
+		driver.findElement(By.id("Address_FirstName")).sendKeys(firstName);
+		driver.findElement(By.id("Address_LastName")).sendKeys(lastName);
+		driver.findElement(By.id("Address_Email")).sendKeys(emailAddress);
+		new Select(driver.findElement(By.id("Address_CountryId"))).selectByVisibleText(countryName);
+		new Select(driver.findElement(By.id("Address_StateProvinceId"))).selectByVisibleText(provinceName);
+		driver.findElement(By.id("Address_City")).sendKeys(cityName);
+		driver.findElement(By.id("Address_Address1")).sendKeys(addressName);
+		driver.findElement(By.id("Address_ZipPostalCode")).sendKeys(postalCode);
+		driver.findElement(By.id("Address_PhoneNumber")).sendKeys(postalCode);
+		driver.findElement(By.xpath("//button[@class='button-1 save-address-button']")).click();
+		
+
 	}
 
 	public int getRandomNumber() {
@@ -100,6 +128,6 @@ public class Topic_08_Default_Dropdown {
 
 	@AfterClass
 	public void afterClass() {
-		//driver.quit();
+		// driver.quit();
 	}
 }
