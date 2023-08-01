@@ -1,8 +1,7 @@
 package workdrive;
 
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
-
+import java.util.concurrent.TimeUnit;	
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -65,6 +64,10 @@ public class Topic_08_Default_Dropdown {
 		new Select(driver.findElement(By.name("DateOfBirthDay"))).selectByVisibleText(day);
 		new Select(driver.findElement(By.name("DateOfBirthMonth"))).selectByVisibleText(month);
 		new Select(driver.findElement(By.name("DateOfBirthYear"))).selectByVisibleText(year);
+		
+	   // Kiểm tra loại của dropdown: ==> Assert.assertFalse(new Select(driver.findElement(By.name("DateOfBirthDay"))).isMultiple());
+	   // Nếu như dropdown là Single thì hàm này trả về False
+	   // Nếu như dropdown là multiple thì hàm này trả về True
 
 		driver.findElement(By.id("Email")).sendKeys(emailAddress);
 		driver.findElement(By.id("Company")).sendKeys(companyName);
@@ -94,21 +97,31 @@ public class Topic_08_Default_Dropdown {
 		Assert.assertEquals(driver.findElement(By.id("Company")).getAttribute("value"), companyName);
 	}
 
-	// @Test
+	@Test
 	public void TC_02_Add_Address() {
-		driver.findElement(By.xpath("//li[@class='customer-addresses active']/a")).click();
+		driver.findElement(By.cssSelector("li.customer-addresses>a")).click();
+		sleepInSecond(3);
 		driver.findElement(By.xpath("//button[@class='button-1 add-address-button']")).click();
 		driver.findElement(By.id("Address_FirstName")).sendKeys(firstName);
 		driver.findElement(By.id("Address_LastName")).sendKeys(lastName);
 		driver.findElement(By.id("Address_Email")).sendKeys(emailAddress);
+		driver.findElement(By.id("Address_Company")).sendKeys(companyName);
 		new Select(driver.findElement(By.id("Address_CountryId"))).selectByVisibleText(countryName);
 		new Select(driver.findElement(By.id("Address_StateProvinceId"))).selectByVisibleText(provinceName);
 		driver.findElement(By.id("Address_City")).sendKeys(cityName);
 		driver.findElement(By.id("Address_Address1")).sendKeys(addressName);
 		driver.findElement(By.id("Address_ZipPostalCode")).sendKeys(postalCode);
-		driver.findElement(By.id("Address_PhoneNumber")).sendKeys(postalCode);
+		driver.findElement(By.id("Address_PhoneNumber")).sendKeys(phoneNumber);
 		driver.findElement(By.xpath("//button[@class='button-1 save-address-button']")).click();
-		
+		Assert.assertEquals(driver.findElement(By.cssSelector("li.name")).getText(), firstName + " " + lastName);
+		Assert.assertTrue(driver.findElement(By.cssSelector("li.email")).getText().contains(emailAddress));
+		Assert.assertTrue(driver.findElement(By.cssSelector("li.phone")).getText().contains(phoneNumber));
+		Assert.assertEquals(driver.findElement(By.cssSelector("li.company")).getText(), companyName);
+		Assert.assertEquals(driver.findElement(By.cssSelector("li.address1")).getText(), addressName);
+		Assert.assertTrue(driver.findElement(By.cssSelector("li.city-state-zip")).getText().contains(cityName));
+		Assert.assertTrue(driver.findElement(By.cssSelector("li.city-state-zip")).getText().contains(provinceName));
+		Assert.assertTrue(driver.findElement(By.cssSelector("li.city-state-zip")).getText().contains(postalCode));
+		Assert.assertEquals(driver.findElement(By.cssSelector("li.country")).getText(), countryName);
 
 	}
 
@@ -128,6 +141,6 @@ public class Topic_08_Default_Dropdown {
 
 	@AfterClass
 	public void afterClass() {
-		// driver.quit();
+		driver.quit();
 	}
 }
