@@ -1,9 +1,11 @@
 package workdrive;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -37,22 +39,30 @@ public class Topic_09_Custom_Dropdown {
         //1 - Click vào 1 thẻ bất kì để làm sao cho nó xổ ra hết các item của dropdown
 		driver.findElement(By.cssSelector("span#speed-button")).click();
         //2 - Chò cho tất cả các item được load ra thành công
-		explicitWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("")));
-        //3 - Tìm item xem đúng cái đang cần hay không
-        //3.1 - Nếu nó nằm trong khoảng nhìn thấy của User thì ko cần scroll xuống
-        //3.2 - Nếu nó không nằm trong khoảng nhìn thấy của User thì cần scroll xuống đến iitem đó
-        //4 - Kiểm tra cái text của item đúng với cái mình mong muốn
-        //5 -  Click vào item đó
+		explicitWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector("ul#speed-menu div[role='option']")));
 		
+		//Đưa hết tất cả item trong dropdown vào trong 1 list
+		List<WebElement> speedDropdownItems = driver.findElements(By.cssSelector("ul#speed-menu div[role='option']"));
 		
-
-
-
+		//3 - Tìm item xem đúng cái đang cần hay không(dùng vòng lặp duyệt qua)
+		for (WebElement tempItem : speedDropdownItems) {
+			String itemText = tempItem.getText();
+			System.out.println(itemText);
+		//4 - Kiểm tra cái text của item đúng với cái mình mong muốn
+			if (itemText.equals("Faster")) {
+		//5 -  Click vào item đó
+			System.out.println("Click vào item");
+				tempItem.click();
+				// Thoát ra khỏi vòng lặp không xét cho các case 
+				break;
+			} else {
+				System.out.println("Không click vào item");
+			}
+		}
+       
+ 
 	}
-
-	@Test
-	public void TC_02_() {
-	}
+	 //3 - Tìm item xem đúng cái đang cần hay không
 
 	
 	//1000ms = 1s
