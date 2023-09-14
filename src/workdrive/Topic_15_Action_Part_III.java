@@ -2,6 +2,9 @@ package workdrive;
 
 import static org.testng.Assert.assertEquals;
 
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.InputEvent;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -13,8 +16,10 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -38,12 +43,12 @@ public class Topic_15_Action_Part_III {
 	@BeforeClass
 	public void beforeClass() {
 		if (osName.contains("Windows")) {
-			System.setProperty("webdriver.chrome.driver", projectPath + "\\browserDrivers\\chromedriver.exe");
+			System.setProperty("webdriver.gecko.driver", projectPath + "\\browserDrivers\\geckodriver.exe");
 		} else {
 			System.setProperty("webdriver.gecko.driver", projectPath + "/browserDrivers/geckodriver");
 		}
 
-		driver = new ChromeDriver();
+		driver = new FirefoxDriver();
 		action = new Actions(driver);
 		jsExecutor = (JavascriptExecutor) driver;
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
@@ -103,7 +108,7 @@ public class Topic_15_Action_Part_III {
 		Assert.assertEquals(bigCircleHexa, "#03A9F4");
 		
 	}
-	@Test
+	//@Test
 	public void TC_04_DragandDrop_Element_HTML5() throws IOException {
 		String jsHelper = getContentFile(drapAndDropHelperPath);
 		driver.get("https://automationfc.github.io/drag-drop-html5/");
@@ -122,7 +127,18 @@ public class Topic_15_Action_Part_III {
 		Assert.assertTrue(driver.findElement(By.xpath("//div[@id='column-a']/header[text()='A']")).isDisplayed());
 		Assert.assertTrue(driver.findElement(By.xpath("//div[@id='column-b']/header[text()='B']")).isDisplayed());
 	}
-	
+	@Test
+	public void TC_05_DragandDrop_Element_HTML5() throws IOException, AWTException {
+		driver.get("https://automationfc.github.io/drag-drop-html5/");
+		// Drag A to B
+		dragAndDropHTML5ByXpath("//div[@id='column-a']", "//div[@id='column-b']");
+		Assert.assertTrue(driver.findElement(By.xpath("//div[@id='column-a']/header[text()='B']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//div[@id='column-b']/header[text()='A']")).isDisplayed());
+		// Drag B to A
+		dragAndDropHTML5ByXpath("//div[@id='column-b']", "//div[@id='column-a']");
+		Assert.assertTrue(driver.findElement(By.xpath("//div[@id='column-a']/header[text()='A']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//div[@id='column-b']/header[text()='B']")).isDisplayed());
+	}
 
 	//1000ms = 1s
 			public void sleepInSecond(long timeInsecond) {
@@ -153,5 +169,49 @@ public class Topic_15_Action_Part_III {
 		} finally {
 			stream.close();
 		}
+	}
+	
+	
+	public void dragAndDropHTML5ByXpath(String sourceLocator, String targetLocator) throws AWTException {
+
+		WebElement source = driver.findElement(By.xpath(sourceLocator));
+		WebElement target = driver.findElement(By.xpath(targetLocator));
+
+		// Setup robot
+		Robot robot = new Robot();
+		robot.setAutoDelay(500);
+
+		// Get size of elements
+		Dimension sourceSize = source.getSize();
+		Dimension targetSize = target.getSize();
+
+		// Get center distance
+		int xCentreSource = sourceSize.width / 2;
+		int yCentreSource = sourceSize.height / 2;
+		int xCentreTarget = targetSize.width / 2;
+		int yCentreTarget = targetSize.height / 2;
+
+		Point sourceLocation = source.getLocation();
+		Point targetLocation = target.getLocation();
+
+		// Make Mouse coordinate center of element
+		sourceLocation.x += 20 + xCentreSource;
+		sourceLocation.y += 110 + yCentreSource;
+		targetLocation.x += 20 + xCentreTarget;
+		targetLocation.y += 110 + yCentreTarget;
+
+		// Move mouse to drag from location
+		robot.mouseMove(sourceLocation.x, sourceLocation.y);
+
+		// Click and drag
+		robot.mousePress(InputEvent.BUTTON1_MASK);
+		robot.mousePress(InputEvent.BUTTON1_MASK);
+		robot.mouseMove(((sourceLocation.x - targetLocation.x) / 2) + targetLocation.x, ((sourceLocation.y - targetLocation.y) / 2) + targetLocation.y);
+
+		// Move to final position
+		robot.mouseMove(targetLocation.x, targetLocation.y);
+
+		// Drop
+		robot.mouseRelease(InputEvent.BUTTON1_MASK);
 	}
 }
