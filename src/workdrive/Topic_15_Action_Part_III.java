@@ -43,12 +43,12 @@ public class Topic_15_Action_Part_III {
 	@BeforeClass
 	public void beforeClass() {
 		if (osName.contains("Windows")) {
-			System.setProperty("webdriver.gecko.driver", projectPath + "\\browserDrivers\\geckodriver.exe");
+			System.setProperty("webdriver.chrome.driver", projectPath + "\\browserDrivers\\chromedriver.exe");
 		} else {
 			System.setProperty("webdriver.gecko.driver", projectPath + "/browserDrivers/geckodriver");
 		}
 
-		driver = new FirefoxDriver();
+		driver = new ChromeDriver();
 		action = new Actions(driver);
 		jsExecutor = (JavascriptExecutor) driver;
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
