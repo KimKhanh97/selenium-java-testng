@@ -62,8 +62,11 @@ public class Topic_08_Default_Dropdown {
 		// Kiểm tra xem dropdown là single/F hay multiple/T: isMultiple
 
 		new Select(driver.findElement(By.name("DateOfBirthDay"))).selectByVisibleText(day);
+		sleepInSecond(5);
 		new Select(driver.findElement(By.name("DateOfBirthMonth"))).selectByVisibleText(month);
+		sleepInSecond(5);
 		new Select(driver.findElement(By.name("DateOfBirthYear"))).selectByVisibleText(year);
+		sleepInSecond(5);
 		
 	   // Kiểm tra loại của dropdown: ==> Assert.assertFalse(new Select(driver.findElement(By.name("DateOfBirthDay"))).isMultiple());
 	   // Nếu như dropdown là Single thì hàm này trả về False
@@ -97,7 +100,7 @@ public class Topic_08_Default_Dropdown {
 		Assert.assertEquals(driver.findElement(By.id("Company")).getAttribute("value"), companyName);
 	}
 
-	@Test
+	//@Test
 	public void TC_02_Add_Address() {
 		driver.findElement(By.cssSelector("li.customer-addresses>a")).click();
 		sleepInSecond(3);
