@@ -36,6 +36,21 @@ public class Topic_17_Frame_Iframe {
 		Assert.assertTrue(driver.findElement(By.xpath("//iframe[contains(@src,'kyna.vn')]")).isDisplayed());
 		
 		// Cần phải switch vào đúng cái thẻ iframe chưa các element đó
+	     //driver.switchTo().frame(0); ==> frame có thể bị thay đổi vị trí
+	     //driver.switchTo().frame("Name or id"); ==> frame ko có name ko có id
+	     driver.switchTo().frame(driver.findElement(By.xpath("//iframe[contains(@src,'kyna.vn')]")));
+	     
+	     String facebookLike = driver.findElement(By.xpath("//a[text()='Kyna.vn']/parent::div/following-sibling::div")).getText();
+	     System.out.println(facebookLike);
+	     
+	     Assert.assertEquals(facebookLike, "167K followers");
+	     
+	     // Cần switch về main page
+	     driver.switchTo().defaultContent();
+	     // Từ main page switch qua iframe chat
+	     driver.switchTo().frame("cs_chat_iframe");
+	     //Click chat để show lên chat support
+	     driver.findElement(By.cssSelector("div.button_bar")).click();
 		
 		
 	}
