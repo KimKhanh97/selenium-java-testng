@@ -29,14 +29,15 @@ public class Topic_18_Window_Tab {
 		driver.manage().window().maximize();
 	}
 
-	@Test
-	public void TC_01_() {
+	//@Test
+	public void TC_01_ID() {
 		//Parent page
 		driver.get("https://automationfc.github.io/basic-form/");
 		//Window/Tab nó sẽ có 2 hàm để lấy ra ID của Window/Tab đó
 		// 1 - Nó sẽ ấy ra ID của Tab/ Window mà nó đang đứng (active)
-		String parentPageWindowID = driver.getWindowHandle();
-		System.out.println(parentPageWindowID);
+		
+		String basicFormID = driver.getWindowHandle();
+		System.out.println(basicFormID);
 		
 		
 		// 2 - Nó sẽ lấy ra tất cả ID ===> chỉ có duy nhất 1 tab thì ko dùng hàm này
@@ -46,32 +47,81 @@ public class Topic_18_Window_Tab {
 		// Click vào google link để bật ra 1 tab mới
 		driver.findElement(By.xpath("//a[text()='GOOGLE']")).click();
 		sleepInSecond(5);
-		
 		// Lấy hết tất cả các ID ra
+		// Nếu như cái ID nào mà khác với ID của parent thì switch
+		switchToWindowByID(basicFormID);
+		Assert.assertEquals(driver.getCurrentUrl(), "https://www.google.com.vn/");
+		//Lấy ID của Window/Tab google - Vì sao dùng hàm này lại -> lấy ra được ID của tab goolge?? => vì driver đang đừng ớ Window/Tab active
+		String googleWindowID = driver.getWindowHandle();
+		System.out.println(googleWindowID);
+		switchToWindowByID(googleWindowID);
+		Assert.assertEquals(driver.getCurrentUrl(), "https://automationfc.github.io/basic-form/");
+	}
+	@Test
+	public void TC_02_Title() {
+		//Parent page
+		driver.get("https://automationfc.github.io/basic-form/");
+		//Window/Tab nó sẽ có 2 hàm để lấy ra ID của Window/Tab đó
+		
+		// Click vào google link để bật ra 1 tab mới
+		driver.findElement(By.xpath("//a[text()='GOOGLE']")).click();
+		sleepInSecond(5);
+		switchToWindowByPageTitle("Google");
+		Assert.assertEquals(driver.getCurrentUrl(), "https://www.google.com.vn/");
+		driver.findElement(By.name("q")).sendKeys("Selenium");
+		switchToWindowByPageTitle("Selenium WebDriver");
+		Assert.assertEquals(driver.getCurrentUrl(), "https://automationfc.github.io/basic-form/");
+		
+		// Click vào Facebook link để bật ra 1 tab mới
+		driver.findElement(By.xpath("//a[text()='FACEBOOK']")).click();
+		sleepInSecond(2);
+		switchToWindowByPageTitle("Facebook – log in or sign up");
+		driver.findElement(By.id("email")).sendKeys("bupbekotinhyeu20885@yahoo.com");
+		driver.findElement(By.id("pass")).sendKeys("123456789");
+		switchToWindowByPageTitle("Selenium WebDriver");
+		Assert.assertEquals(driver.getCurrentUrl(), "https://automationfc.github.io/basic-form/");
+		
+		// Click vào Tiki link để bật ra 1 tab mới
+		driver.findElement(By.xpath("//a[text()='TIKI']")).click();
+		sleepInSecond(2);
+		switchToWindowByPageTitle("Tiki - Mua hàng online giá tốt, hàng chuẩn, ship nhanh");
+		driver.findElement(By.xpath("//input[@data-view-id='main_search_form_input']")).sendKeys("MacBook");
+		
+	}
+	
+	@Test
+	public void TC_03_Live_Guru() {
+		driver.get("http://live.techpanda.org/index.php/mobile.html");
+		
+	}
+	
+	// Case 1: chỉ có duy nhất 2 ID (Window/Tab)
+	public void switchToWindowByID(String otherID) {
 		Set<String> allWindowIDs = driver.getWindowHandles();
 		// Sau đó dùng vòng lặp duyệt qua và kiểm tra
 		for (String ID : allWindowIDs) {
-			if (!ID.equals(parentPageWindowID)) {
+			if (!ID.equals(otherID)) {
 				driver.switchTo().window(ID);
+				sleepInSecond(2);
 			}
 		}
-		Assert.assertEquals(driver.getCurrentUrl(), "https://www.google.com.vn/");
-		// Nếu như cái ID nào mà khác với ID của parent thì switch
-		
-		
-		
-		// Case 1: chỉ có duy nhất 2 window hoặc 2 tab
-		
-		
-		
-		// Case 2: Nhiều hơn 2 window / 2 tab
-	}
-
-	@Test
-	public void TC_02_() {
 	}
 
 	
+	// Case 2: Dùng được cho từ 2 ID trở lên (Window/Tab)
+	public void switchToWindowByPageTitle(String expectedPageTitle) {
+		Set<String> allWindowIDs = driver.getWindowHandles();
+		for (String ID : allWindowIDs) {
+			// Switch từng ID trước
+			driver.switchTo().window(ID);
+			//Lấy ra title của page này
+			String actualPageTitle = driver.getTitle();
+			if (actualPageTitle.equals(expectedPageTitle)) {
+				sleepInSecond(2);
+				break;
+			}
+		}
+	}
 	//1000ms = 1s
 		public void sleepInSecond(long timeInsecond) {
 			try {
