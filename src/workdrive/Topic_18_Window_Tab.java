@@ -92,6 +92,12 @@ public class Topic_18_Window_Tab {
 	@Test
 	public void TC_03_Live_Guru() {
 		driver.get("http://live.techpanda.org/index.php/mobile.html");
+		//Click vào Xperia - Compare
+		driver.findElement(By.xpath("//a[@title='Sony Xperia']/parent::h2/following-sibling::div[@class='actions']//a[@class='link-compare']")).click();
+		Assert.assertEquals(driver.findElement(By.xpath("//li[@class='success-msg']//span")).getText(), "The product Sony Xperia has been added to comparison list.");
+		driver.findElement(By.xpath("//a[@title='Samsung Galaxy']/parent::h2/following-sibling::div[@class='actions']//a[@class='link-compare']")).click();
+		Assert.assertEquals(driver.findElement(By.xpath("//li[@class='success-msg']//span")).getText(), "The product Samsung Galaxy has been added to comparison list.");
+		driver.findElement(By.xpath("//button[@title='Compare']")).click();
 		
 	}
 	
