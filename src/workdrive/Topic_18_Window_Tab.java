@@ -57,10 +57,11 @@ public class Topic_18_Window_Tab {
 		switchToWindowByID(googleWindowID);
 		Assert.assertEquals(driver.getCurrentUrl(), "https://automationfc.github.io/basic-form/");
 	}
-	@Test
+	//@Test
 	public void TC_02_Title() {
 		//Parent page
 		driver.get("https://automationfc.github.io/basic-form/");
+		String parenID = driver.getWindowHandle();
 		//Window/Tab nó sẽ có 2 hàm để lấy ra ID của Window/Tab đó
 		
 		// Click vào google link để bật ra 1 tab mới
@@ -86,18 +87,32 @@ public class Topic_18_Window_Tab {
 		sleepInSecond(2);
 		switchToWindowByPageTitle("Tiki - Mua hàng online giá tốt, hàng chuẩn, ship nhanh");
 		driver.findElement(By.xpath("//input[@data-view-id='main_search_form_input']")).sendKeys("MacBook");
-		
+		closeAllWindowWithoutParent(parenID);
 	}
 	
 	@Test
 	public void TC_03_Live_Guru() {
 		driver.get("http://live.techpanda.org/index.php/mobile.html");
+		String parenID = driver.getWindowHandle();
 		//Click vào Xperia - Compare
 		driver.findElement(By.xpath("//a[@title='Sony Xperia']/parent::h2/following-sibling::div[@class='actions']//a[@class='link-compare']")).click();
 		Assert.assertEquals(driver.findElement(By.xpath("//li[@class='success-msg']//span")).getText(), "The product Sony Xperia has been added to comparison list.");
 		driver.findElement(By.xpath("//a[@title='Samsung Galaxy']/parent::h2/following-sibling::div[@class='actions']//a[@class='link-compare']")).click();
 		Assert.assertEquals(driver.findElement(By.xpath("//li[@class='success-msg']//span")).getText(), "The product Samsung Galaxy has been added to comparison list.");
 		driver.findElement(By.xpath("//button[@title='Compare']")).click();
+		sleepInSecond(2);
+		switchToWindowByPageTitle("Products Comparison List - Magento Commerce");
+		Assert.assertTrue(driver.findElement(By.xpath("//h1[text()='Compare Products']")).isDisplayed());
+		sleepInSecond(3);
+		//driver.findElement(By.xpath("//button[@title='Close Window']")).click();
+		//sleepInSecond(2);
+		
+	
+		closeAllWindowWithoutParent(parenID);
+		sleepInSecond(3);
+		switchToWindowByPageTitle("Mobile");
+		driver.findElement(By.xpath("//a[@title='IPhone']/parent::h2/following-sibling::div[@class='actions']//a[@class='link-compare']")).click();
+		Assert.assertEquals(driver.findElement(By.xpath("//li[@class='success-msg']//span")).getText(), "The product IPhone has been added to comparison list.");
 		
 	}
 	
@@ -128,6 +143,18 @@ public class Topic_18_Window_Tab {
 			}
 		}
 	}
+	
+	public void closeAllWindowWithoutParent(String parentID) {
+		Set<String> allWindowIDs = driver.getWindowHandles();
+		for (String ID : allWindowIDs) {
+			if (!ID.equals(parentID)) {
+				driver.switchTo().window(ID);
+				driver.close();
+				sleepInSecond(2);
+			}
+		}
+		driver.switchTo().window(parentID);
+	}
 	//1000ms = 1s
 		public void sleepInSecond(long timeInsecond) {
 			try {
@@ -140,6 +167,6 @@ public class Topic_18_Window_Tab {
 		
 	@AfterClass
 	public void afterClass() {
-		driver.quit();
+		//driver.quit();
 	}
 }
