@@ -34,7 +34,7 @@ public class Topic_19_JavaScript_Executor {
 		driver.manage().window().maximize();
 	}
 
-	@Test
+	//@Test
 	public void TC_01_Tech_Panda() {
 		driver.get("http://live.techpanda.org/");
 //		navigateToUrlByJS("http://live.techpanda.org/");
@@ -77,21 +77,34 @@ public class Topic_19_JavaScript_Executor {
 		driver.get("https://warranty.rode.com/register");
 		
 		String nameTextbox = "//input[@id='name']";
-		String emailTextbox = "//input[@id='emailemail']";
+		String emailTextbox = "//input[@id='email']";
 		String passwordTextbox = "//input[@id='password']";
 		String confirmPasswordTextbox = "//input[@id='password_confirmation']";
-		String registerButton = "//button[text()='Register']";
+		String registerButton = "//button[text()=' Register ']";
 		
 	
 		clickToElementByJS(registerButton);
 		sleepInSecond(2);
 		Assert.assertEquals(getElementValidationMessage(nameTextbox), "Please fill out this field.");
 		sendkeyToElementByJS(nameTextbox, "Kim Khánh");
+		
+		clickToElementByJS(registerButton);
+		sleepInSecond(2);
+		Assert.assertEquals(getElementValidationMessage(emailTextbox), "Please fill out this field.");
+		sendkeyToElementByJS(emailTextbox, "trankim@khanh@gmai.com");
+		clickToElementByJS(registerButton);
+		sleepInSecond(2);
+		Assert.assertEquals(getElementValidationMessage(emailTextbox), "Please enter an email address.");
+		sendkeyToElementByJS(emailTextbox, "trankimkhanh@gmai.com");
 		clickToElementByJS(registerButton);
 		sleepInSecond(2);
 		
+		Assert.assertEquals(getElementValidationMessage(passwordTextbox), "Please fill out this field.");
+		sendkeyToElementByJS(passwordTextbox, "Kimkhanh@090997");
+		clickToElementByJS(registerButton);
+		sleepInSecond(2);
 		
-		Assert.assertEquals(getElementValidationMessage(nameTextbox), "Please fill out this field.");
+		Assert.assertEquals(getElementValidationMessage(confirmPasswordTextbox), "Please fill out this field.");
 	}
 
 	public Object executeForBrowser(String javaScript) {
