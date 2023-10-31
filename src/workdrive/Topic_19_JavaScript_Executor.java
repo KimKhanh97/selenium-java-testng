@@ -36,8 +36,9 @@ public class Topic_19_JavaScript_Executor {
 
 	@Test
 	public void TC_01_Tech_Panda() {
-		navigateToUrlByJS("http://live.techpanda.org/");
-		sleepInSecond(5);
+		driver.get("http://live.techpanda.org/");
+//		navigateToUrlByJS("http://live.techpanda.org/");
+//		sleepInSecond(5);
 		Assert.assertEquals(getDomainName(), "live.techpanda.org");
 		executeForBrowser("return document.URL;");
 		hightlightElement("//a[text()='Mobile']");
@@ -69,7 +70,28 @@ public class Topic_19_JavaScript_Executor {
 		
 		navigateToUrlByJS("https://demo.guru99.com/v4/");
 		sleepInSecond(5);
-		Assert.assertEquals(getDomainName(), "https://demo.guru99.com/v4/");
+		Assert.assertEquals(getDomainName(), "demo.guru99.com");
+	}
+	@Test
+	public void TC_02_HTML5_Validation_Message() {
+		driver.get("https://warranty.rode.com/register");
+		
+		String nameTextbox = "//input[@id='name']";
+		String emailTextbox = "//input[@id='emailemail']";
+		String passwordTextbox = "//input[@id='password']";
+		String confirmPasswordTextbox = "//input[@id='password_confirmation']";
+		String registerButton = "//button[text()='Register']";
+		
+	
+		clickToElementByJS(registerButton);
+		sleepInSecond(2);
+		Assert.assertEquals(getElementValidationMessage(nameTextbox), "Please fill out this field.");
+		sendkeyToElementByJS(nameTextbox, "Kim Khánh");
+		clickToElementByJS(registerButton);
+		sleepInSecond(2);
+		
+		
+		Assert.assertEquals(getElementValidationMessage(nameTextbox), "Please fill out this field.");
 	}
 
 	public Object executeForBrowser(String javaScript) {
