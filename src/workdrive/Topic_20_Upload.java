@@ -19,11 +19,11 @@ public class Topic_20_Upload {
 	String osName = System.getProperty("os.name");
 	JavascriptExecutor jsExecutor;
 	String handFileName = "hand.jpg";
-	String loveFieName = "Love.jpg";
+	String loveFileName = "Love.jpg";
 	String mountainFileName = "mountain.jpg";
 	
 	String handFilePath = projectPath + "\\uploadFile\\" + handFileName;
-	String loveFilePath = projectPath + "\\uploadFile\\" + loveFieName;
+	String loveFilePath = projectPath + "\\uploadFile\\" + loveFileName;
 	String mountainFilePath = projectPath + "\\uploadFile\\" + mountainFileName;
 
 	@BeforeClass
@@ -40,7 +40,7 @@ public class Topic_20_Upload {
 		driver.manage().window().maximize();
 	}
 
-	@Test
+	//@Test
 	public void TC_01_One_File_Per_Time() {
 		driver.get("https://blueimp.github.io/jQuery-File-Upload/");
 		
@@ -55,35 +55,57 @@ public class Topic_20_Upload {
 		sleepInSecond(2);
 		
 		// Verify file được load lên thành công 
-		Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name' and text()='" + handFilePath + "']")).isDisplayed());
-		Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name' and text()='" + loveFilePath + "']")).isDisplayed());
-		Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name' and text()='" + mountainFilePath + "']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name' and text()='" + handFileName + "']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name' and text()='" + loveFileName + "']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name' and text()='" + mountainFileName + "']")).isDisplayed());
 		//Click Upload
 		List <WebElement> uploadButton = driver.findElements(By.cssSelector("table button.start"));
 		for (WebElement button : uploadButton) {
 			button.click();
-			sleepInSecond(1);
+			sleepInSecond(5);
 		}
 		
 		//Verify Upload thành công (link)
-		Assert.assertTrue(driver.findElement(By.xpath("//a[text()='" + handFilePath + "']")).isDisplayed());
-		Assert.assertTrue(driver.findElement(By.xpath("//a[text()='" + loveFilePath + "']")).isDisplayed());
-		Assert.assertTrue(driver.findElement(By.xpath("//a[text()='" + mountainFilePath + "']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//a[text()='" + handFileName + "']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//a[text()='" + loveFileName + "']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//a[text()='" + mountainFileName + "']")).isDisplayed());
 		//Verify Upload thành công (image)
-		Assert.assertTrue(isImageLoaded("//img[contains(@src,'" + handFilePath + "')]"));
-		Assert.assertTrue(isImageLoaded("//img[contains(@src,'" + loveFilePath + "')]"));
-		Assert.assertTrue(isImageLoaded("//img[contains(@src,'" + loveFilePath + "')]"));
+		Assert.assertTrue(isImageLoaded("//img[contains(@src,'" + handFileName + "')]"));
+		Assert.assertTrue(isImageLoaded("//img[contains(@src,'" + loveFileName + "')]"));
+		Assert.assertTrue(isImageLoaded("//img[contains(@src,'" + mountainFileName + "')]"));
 	}
 	
 	@Test
-	public void TC_02_One_File_Per_Time() {
+	public void TC_02_ultiple_File_Per_Time() {
+        driver.get("https://blueimp.github.io/jQuery-File-Upload/");
+		
+		//Load file lên
+		driver.findElement(By.cssSelector("input[type='file']")).sendKeys(mountainFilePath + "\n" + loveFilePath + "\n" + handFilePath);
+		sleepInSecond(2);
+		
+		// Verify file được load lên thành công 
+		Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name' and text()='" + handFileName + "']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name' and text()='" + loveFileName + "']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name' and text()='" + mountainFileName + "']")).isDisplayed());
+		//Click Upload
+		List <WebElement> uploadButton = driver.findElements(By.cssSelector("table button.start"));
+		for (WebElement button : uploadButton) {
+			button.click();
+			sleepInSecond(5);
+		}
+		
+		//Verify Upload thành công (link)
+		Assert.assertTrue(driver.findElement(By.xpath("//a[text()='" + handFileName + "']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//a[text()='" + loveFileName + "']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//a[text()='" + mountainFileName + "']")).isDisplayed());
+		//Verify Upload thành công (image)
+		Assert.assertTrue(isImageLoaded("//img[contains(@src,'" + handFileName + "')]"));
+		Assert.assertTrue(isImageLoaded("//img[contains(@src,'" + loveFileName + "')]"));
+		Assert.assertTrue(isImageLoaded("//img[contains(@src,'" + mountainFileName + "')]"));
 			
 	}
 
-	@Test
-	public void TC_02_() {
-	}
-
+	
 	
 	//1000ms = 1s
 		public void sleepInSecond(long timeInsecond) {
@@ -97,10 +119,8 @@ public class Topic_20_Upload {
 		
 	@AfterClass
 	public void afterClass() {
-		//driver.quit();
+		driver.quit();
 	}
-	
-	
 	public boolean isImageLoaded(String locator) {
 		boolean status = (boolean) jsExecutor.executeScript(
 				"return arguments[0].complete && typeof arguments[0].naturalWidth != 'undefined' && arguments[0].naturalWidth > 0", getElement(locator));
