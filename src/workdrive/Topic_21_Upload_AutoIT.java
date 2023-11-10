@@ -29,6 +29,8 @@ public class Topic_21_Upload_AutoIT {
 	
 	String autoITFireFoxOneTimePath = projectPath + "\\AutoIT\\firefoxUploadOneTime.exe";
 	String autoITChromeOneTimePath = projectPath + "\\AutoIT\\chromeUploadOneTime.exe";
+	String autoITFireFoxMultipleTimePath = projectPath + "\\AutoIT\\firefoxUploadMultiple.exe";
+	String autoITChromeMultipleTimePath = projectPath + "\\AutoIT\\chromeUploadMultiple.exe";
 
 	@BeforeClass
 	public void beforeClass() {
@@ -47,14 +49,19 @@ public class Topic_21_Upload_AutoIT {
 	//@Test
 	public void TC_01_One_File_Per_Time() throws IOException { 
 		driver.get("https://blueimp.github.io/jQuery-File-Upload/");
+		// Click bật Open file dialog lên
+		driver.findElement(By.cssSelector("span.btn-success")).click();
+		
 		
 		//Load file lên
-		Runtime.getRuntime().exec(new String[]{autoITFireFoxOneTimePath, handFilePath});
+		if (driver.toString().contains("firefox")) {
+			Runtime.getRuntime().exec(new String[]{autoITFireFoxOneTimePath, handFilePath});
+		} else {
+			Runtime.getRuntime().exec(new String[]{autoITChromeOneTimePath, handFilePath});
+		}
 		
 		// Verify file được load lên thành công 
 		Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name' and text()='" + handFileName + "']")).isDisplayed());
-		Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name' and text()='" + loveFileName + "']")).isDisplayed());
-		Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name' and text()='" + mountainFileName + "']")).isDisplayed());
 		//Click Upload
 		List <WebElement> uploadButton = driver.findElements(By.cssSelector("table button.start"));
 		for (WebElement button : uploadButton) {
@@ -64,21 +71,21 @@ public class Topic_21_Upload_AutoIT {
 		
 		//Verify Upload thành công (link)
 		Assert.assertTrue(driver.findElement(By.xpath("//a[text()='" + handFileName + "']")).isDisplayed());
-		Assert.assertTrue(driver.findElement(By.xpath("//a[text()='" + loveFileName + "']")).isDisplayed());
-		Assert.assertTrue(driver.findElement(By.xpath("//a[text()='" + mountainFileName + "']")).isDisplayed());
 		//Verify Upload thành công (image)
 		Assert.assertTrue(isImageLoaded("//img[contains(@src,'" + handFileName + "')]"));
-		Assert.assertTrue(isImageLoaded("//img[contains(@src,'" + loveFileName + "')]"));
-		Assert.assertTrue(isImageLoaded("//img[contains(@src,'" + mountainFileName + "')]"));
 	}
 	
 	@Test
-	public void TC_02_ultiple_File_Per_Time() {
+	public void TC_02_ultiple_File_Per_Time() throws IOException {
         driver.get("https://blueimp.github.io/jQuery-File-Upload/");
-		
-		//Load file lên
-		driver.findElement(By.cssSelector("input[type='file']")).sendKeys(mountainFilePath + "\n" + loveFilePath + "\n" + handFilePath);
-		sleepInSecond(2);
+        // Click bật Open file dialog lên
+        driver.findElement(By.cssSelector("span.btn-success")).click();
+       //Load file lên
+    	if (driver.toString().contains("firefox")) {
+    		Runtime.getRuntime().exec(new String[]{autoITFireFoxMultipleTimePath, handFilePath, loveFilePath, mountainFilePath});
+    	} else {
+    		Runtime.getRuntime().exec(new String[]{autoITChromeMultipleTimePath, handFilePath, loveFilePath, mountainFilePath});
+    	}
 		
 		// Verify file được load lên thành công 
 		Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name' and text()='" + handFileName + "']")).isDisplayed());
