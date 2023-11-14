@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -27,7 +28,7 @@ public class Topic_22_Wait_Element_Condicontion_Status_Part1 {
 
 		driver = new FirefoxDriver();
 		explicitWait = new WebDriverWait(driver, 10);
-		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		//driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
 	}
 
@@ -46,14 +47,55 @@ public class Topic_22_Wait_Element_Condicontion_Status_Part1 {
 		// Không có trên UI (bắt buộc)
 		// Có trong HTML
 		driver.get("https://www.facebook.com/");
-	}
+		driver.findElement(By.xpath("//a[@data-testid='open-registration-form-button']")).click();
+		// Chờ cho re-enter email textbox không hiển thị trong vòng 10s
+		explicitWait.until(ExpectedConditions.invisibilityOfElementLocated(By.name("reg_email_confirmation__")));
+}
 	
-	@Test
+	//@Test
 	public void TC_03_Invisible_Undisplayed_Invisibility_II() {
 		// Không có trên UI (bắt buộc)
 		// Không có trong HTML
 		driver.get("https://www.facebook.com/");
+		// Chờ cho re-enter email textbox không hiển thị trong vòng 10s
+		explicitWait.until(ExpectedConditions.invisibilityOfElementLocated(By.name("reg_email_confirmation__")));
+	}
+	
+	//@Test
+	public void TC_04_Presence_I() {
+		//Có ở trên UI
+		//Có ở trong cây HTML (bắt buộc)
+		driver.get("https://www.facebook.com/");
+		// Chờ cho re-enter email textbox không hiển thị trong vòng 10s
+		explicitWait.until(ExpectedConditions.presenceOfElementLocated(By.id("email")));
+		}
 		
+	//@Test
+	public void TC_05_Presence_II() {
+		//Không có trên UI
+		//Có ở trong cây HTML (bắt buộc)
+		driver.get("https://www.facebook.com/");
+		driver.findElement(By.xpath("//a[@data-testid='open-registration-form-button']")).click();
+		// Chờ cho re-enter email textbox không hiển thị trong vòng 10s
+		explicitWait.until(ExpectedConditions.presenceOfElementLocated(By.name("reg_email_confirmation__")));
+	}
+	
+	//@Test
+	public void TC_06_Staleness() {
+		// Không có trên UI (bắt buộc)
+		// Không có trong HTML
+		driver.get("https://www.facebook.com/");
+		driver.findElement(By.xpath("//a[@data-testid='open-registration-form-button']")).click();
+		// Phase1: Element có trong cây HTML
+		WebElement reEnterEmailAddressTextbox = driver.findElement(By.name("reg_email_confirmation__"));
+		
+		// Thao tác với element ..làm cho element re-enter ko còn trong DOM nữa
+		
+		// Close Popup đi
+		driver.findElement(By.cssSelector("img._8idr")).click();
+		
+		// Chờ cho re-enter email textbox không còn trong vòng 10s
+		explicitWait.until(ExpectedConditions.stalenessOf(reEnterEmailAddressTextbox));
 	}
 
 	
