@@ -1,5 +1,10 @@
 package workdrive;
 
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -47,7 +52,7 @@ public class Topic_21_Upload_AutoIT {
 	}
 
 	//@Test
-	public void TC_01_One_File_Per_Time() throws IOException { 
+	public void TC_01_One_File_Per_Time_AutoIT() throws IOException { 
 		driver.get("https://blueimp.github.io/jQuery-File-Upload/");
 		// Click bật Open file dialog lên
 		driver.findElement(By.cssSelector("span.btn-success")).click();
@@ -75,8 +80,8 @@ public class Topic_21_Upload_AutoIT {
 		Assert.assertTrue(isImageLoaded("//img[contains(@src,'" + handFileName + "')]"));
 	}
 	
-	@Test
-	public void TC_02_ultiple_File_Per_Time() throws IOException {
+	//@Test
+	public void TC_02_ultiple_File_Per_Time_AutoIT() throws IOException {
         driver.get("https://blueimp.github.io/jQuery-File-Upload/");
         // Click bật Open file dialog lên
         driver.findElement(By.cssSelector("span.btn-success")).click();
@@ -109,6 +114,27 @@ public class Topic_21_Upload_AutoIT {
 			
 	}
 
+	//@Test
+	public void TC_03_One_File_Per_Time_Robot() throws IOException, AWTException { 
+		driver.get("https://blueimp.github.io/jQuery-File-Upload/");
+	// Click bật Open file dialog lên
+		driver.findElement(By.cssSelector("span.btn-success")).click();
+	
+	//Load file lên
+		loadFileByRobot(handFilePath);			
+	// Verify file được load lên thành công 
+		Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name' and text()='" + handFileName + "']")).isDisplayed());	
+	//Click Upload
+		List <WebElement> uploadButton = driver.findElements(By.cssSelector("table button.start"));
+		for (WebElement button : uploadButton) {
+			button.click();
+			sleepInSecond(5);
+	}		
+	//Verify Upload thành công (link)
+		Assert.assertTrue(driver.findElement(By.xpath("//a[text()='" + handFileName + "']")).isDisplayed());
+	//Verify Upload thành công (image)
+		Assert.assertTrue(isImageLoaded("//img[contains(@src,'" + handFileName + "')]"));
+	}
 	
 	
 	//1000ms = 1s
@@ -125,12 +151,35 @@ public class Topic_21_Upload_AutoIT {
 	public void afterClass() {
 		driver.quit();
 	}
+	public void loadFileByRobot(String filePath) throws AWTException {
+		// Copy file path
+		StringSelection select = new StringSelection(filePath);
+		Toolkit .getDefaultToolkit().getSystemClipboard().setContents(select, null);
+		
+		// Load file
+		Robot robot = new Robot();
+		sleepInSecond(1);
+		
+		
+		// Nhấn xuống Ctrl + V
+		robot.keyPress(KeyEvent.VK_CONTROL);
+		robot.keyPress(KeyEvent.VK_V);
+		
+		// Nhả Ctrl + V
+		robot.keyRelease(KeyEvent.VK_CONTROL);
+		robot.keyRelease(KeyEvent.VK_V);
+		sleepInSecond(1);
+		
+		//Nhấn Enter
+		robot.keyPress(KeyEvent.VK_ENTER);
+		robot.keyPress(KeyEvent.VK_V);
+		sleepInSecond(1);
+	}
 	public boolean isImageLoaded(String locator) {
 		boolean status = (boolean) jsExecutor.executeScript(
 				"return arguments[0].complete && typeof arguments[0].naturalWidth != 'undefined' && arguments[0].naturalWidth > 0", getElement(locator));
 		return status;
 	}
-	
 	public WebElement getElement(String locator) {
 		return driver.findElement(By.xpath(locator));
 	}
