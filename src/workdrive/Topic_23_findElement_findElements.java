@@ -31,7 +31,7 @@ public class Topic_23_findElement_findElements {
 		driver.manage().window().maximize();
 	}
 
-	//@Test
+	@Test
 	public void TC_01_FindElement() {
 		// Thao tác 1 lần
 	     	//driver.findElement(By.cssSelector("")).click();
@@ -51,10 +51,12 @@ public class Topic_23_findElement_findElements {
 		  // trong trường hợp bắt locator sai thì nó tìm sai
 		driver.findElement(By.cssSelector("input[type='email']")).sendKeys("trankimkhanh0909@gmail.com");
 		
-		
-		
 		// - Không tìm thấy element/node nào
-		
+		  //Có cơ chế tìm lại = 0.5s sẽ tìm lại 1 lần
+		  // Nếu trong thời gian đang tìm lại mà thấy element thì thỏa điều kiện - Pass
+		  // Nếu hết thời gian (15s) mà vẫn ko thấy element thì 
+		     // + Đánh fail TCS này tại step này + không chạy steps tiếp theo
+		     // + Throw ra 1 ngoại lệ: NoSuchElementException
 		
 
 	}
@@ -71,9 +73,12 @@ public class Topic_23_findElement_findElements {
 		  // Tìm thấy và lưu nó vào list = element tương ứng
 		elements = driver.findElements(By.cssSelector("input[type='email']"));
 		System.out.println("List element number = " + elements.size());
-		
-		
 		// - Không tìm thấy element/node nào
+		  //Có cơ chế tìm lại = 0.5s sẽ tìm lại 1 lần
+		  // Nếu trong thời gian đang tìm lại mà thấy element thì thỏa điều kiện - Pass
+		  // Nếu hết thời gian (15s) mà vẫn ko thấy element thì
+		      //+ Không đánh fail TCS + Vẫn chạy step tiếp theo
+		      //+ Trả về 1 list rỗng (empty) = 0
 		
 	}
 	
