@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -16,7 +17,7 @@ public class Topic_26_ExplicitWait {
 	WebDriver driver;
 	String projectPath = System.getProperty("user.dir");
 	String osName = System.getProperty("os.name");
-	WebDriverWait explitcitWait;
+	WebDriverWait explicitWait;
 
 	@BeforeClass
 	public void beforeClass() {
@@ -32,12 +33,12 @@ public class Topic_26_ExplicitWait {
 		driver.manage().window().maximize();
 	}
 
-	@Test
+	//@Test
 	public void TC_01_Visible() {
 		driver.get("https://automationfc.github.io/dynamic-loading/");
 		
 	
-		explitcitWait = new WebDriverWait(driver, 5);
+		explicitWait = new WebDriverWait(driver, 5);
 				
 		
 		//Click vào start button
@@ -45,24 +46,24 @@ public class Topic_26_ExplicitWait {
 		
 		
 		//Thiếu thời gian để cho 1 element tiếp theo hoạt động
-		explitcitWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div#finish>h4")));
+		explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div#finish>h4")));
 		
 		// get text và verify
 		Assert.assertEquals(driver.findElement(By.cssSelector("div#finish>h4")).getText(), "Hello World!");
 	}
 
-	@Test
+	//@Test
 	public void TC_02_Invisible() {
 		driver.get("https://automationfc.github.io/dynamic-loading/");
 		
 		//Apply 5s cho các điều kiện/ trạng thái cụ thể
-		explitcitWait = new WebDriverWait(driver, 5);
+		explicitWait = new WebDriverWait(driver, 5);
 		
 		//Click vào start button
 		driver.findElement(By.cssSelector("div#start>button")).click();
 		
 		// Đủ thời gian để cho 1 element tiếp theo hoạt động
-		explitcitWait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div#loading")));
+		explicitWait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div#loading")));
 		
 		
 		
@@ -72,6 +73,28 @@ public class Topic_26_ExplicitWait {
 
 	@Test
 	public void TC_03_Ajax_Loading() {
+		driver.get("https://demos.telerik.com/aspnet-ajax/ajaxloadingpanel/functionality/explicit-show-hide/defaultcs.aspx");
+		explicitWait = new WebDriverWait(driver, 20);
+		//Wait cho date picker hiển thị
+		explicitWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector("div.RadCalendar")));
+		
+		// Verify cho Selected Dates là không có ngày nào được chọn
+		Assert.assertEquals(driver.findElement(By.cssSelector("span.label")).getText(), "No Selected Dates to display.");
+		//Wait cho ngày 19 được phép click
+		explicitWait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[text()='20']")));
+		//Click ngày 20
+		driver.findElement(By.xpath("//a[text()='20']")).click();
+		// Waiting cho Ajax icon loading biến mất (Invislble)
+		explicitWait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div[id*='RadCalendar1']>div.raDiv")));
+		// Wait cho ngày vừa được chọn là được phép click trở lại
+		explicitWait.until(ExpectedConditions.elementToBeClickable(By.xpath("//td[@class='rcSelected']/a[text()='20']")));
+		//Verify cho Selected Date là "Wednesday, December 20, 2023"
+		Assert.assertEquals(driver.findElement(By.cssSelector("span.label")).getText(), "Wednesday, December 20, 2023");	
+	}
+	
+	@Test
+	public void TC_04_Upload_File() {
+		driver.get("https://gofile.io/welcome");
 		
 	}
 
