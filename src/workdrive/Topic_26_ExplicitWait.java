@@ -19,6 +19,19 @@ public class Topic_26_ExplicitWait {
 	String osName = System.getProperty("os.name");
 	WebDriverWait explicitWait;
 
+	String handFileName = "hand.jpg";
+	String loveFileName = "Love.jpg";
+	String mountainFileName = "mountain.jpg";
+	
+	String handFilePath = projectPath + "\\uploadFile\\" + handFileName;
+	String loveFilePath = projectPath + "\\uploadFile\\" + loveFileName;
+	String mountainFilePath = projectPath + "\\uploadFile\\" + mountainFileName;
+	
+	String autoITFireFoxOneTimePath = projectPath + "\\AutoIT\\firefoxUploadOneTime.exe";
+	String autoITChromeOneTimePath = projectPath + "\\AutoIT\\chromeUploadOneTime.exe";
+	String autoITFireFoxMultipleTimePath = projectPath + "\\AutoIT\\firefoxUploadMultiple.exe";
+	String autoITChromeMultipleTimePath = projectPath + "\\AutoIT\\chromeUploadMultiple.exe";
+	
 	@BeforeClass
 	public void beforeClass() {
 		if (osName.contains("Windows")) {
@@ -96,6 +109,14 @@ public class Topic_26_ExplicitWait {
 	public void TC_04_Upload_File() {
 		driver.get("https://gofile.io/welcome");
 		
+		
+		//Wait cho Add files button được visible
+	explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div#filesUpload button.filesUploadButton")));
+	driver.findElement(By.cssSelector("input[type='file']")).sendKeys(handFilePath + "\n" + loveFilePath + "\n" + mountainFilePath);
+	
+	//Wait cho từng loadi icon của từng file biến mất
+	explicitWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector("explicitWait.until(ExpectedConditions.")));
+	
 	}
 
 	
